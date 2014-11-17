@@ -272,6 +272,8 @@ print "Location"
 a,b = calc_thresholds_loc(crime_data_processed)
 thresh_x = a
 thresh_y = b
+print thresh_x
+print thresh_y
 data_processed['LOC_LABELLED'] = data_processed.apply(assign_loc_label,axis=1)
 
 #print type(data_processed['WIND'][0])
