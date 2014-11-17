@@ -32,7 +32,7 @@ def stampToHours(stamp):
 def stampToDate(stamp):
     
     date_object = datetime.strptime(stamp, '%Y-%m-%d')
-    return str(date_object.month).zfill(2)  + str(date_object.day).zfill(2) 
+    return int(str(date_object.month).zfill(2)+str(date_object.day).zfill(2)) 
     
 def stampToWeekDay(stamp):
     
@@ -147,6 +147,13 @@ def assign_vis_label(x):
             return i
     return num_weather_labels - 1
 
+def assign_ucr_label(x):
+    if x['CRIME_TYPE'] == 600:
+        if x['CRIME_DESC'] == 'Thefts':
+            return 600
+        return 800
+    return x['CRIME_TYPE']
+
 
 
  ########## DATA PROCESSING ############
@@ -164,6 +171,7 @@ crime_data_processed['POINT_X'] = crime_data['POINT_X']
 crime_data_processed['POINT_Y'] = crime_data['POINT_Y']
 crime_data_processed['HOUR'] = crime_data['DISPATCH_TIME'].apply(stampToHours) 
 crime_data_processed['CRIME_TYPE'] = crime_data['UCR_GENERAL']
+crime_data_processed['CRIME_DESC'] = crime_data['TEXT_GENERAL_CODE']
 crime_data_processed['DATE'] = crime_data['DISPATCH_DATE'].apply(stampToDate)
 crime_data_processed['WEEK_DAY'] = crime_data['DISPATCH_DATE'].apply(stampToWeekDay)
 crime_data_processed['MONTH'] = crime_data['DISPATCH_DATE'].apply(stampToMonth)
@@ -272,9 +280,11 @@ print "Location"
 a,b = calc_thresholds_loc(crime_data_processed)
 thresh_x = a
 thresh_y = b
-print thresh_x
-print thresh_y
 data_processed['LOC_LABELLED'] = data_processed.apply(assign_loc_label,axis=1)
+
+#Split thefts
+print "Splitting theft types"
+data_processed['CRIME_TYPE'] = data_processed.apply(assign_ucr_label,axis=1)
 
 #print type(data_processed['WIND'][0])
 print data_processed[:30]
