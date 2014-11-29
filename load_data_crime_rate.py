@@ -29,17 +29,17 @@ rate_df.to_pickle('data/month_temp_rate.pkl')
 #########################################################################################
 #sample 2 - 3 features: hour, wind and week day
 
-rate_df = pd.DataFrame(columns = ['YEAR', 'HOUR', 'WIND_BINARY', 'WEEK_DAY', 'RATE'])
+rate_df = pd.DataFrame(columns = ['YEAR', 'HOUR', 'WIND_LABELLED', 'WEEK_DAY', 'RATE'])
 
 for year in range(2009, 2014):
     num_entries_in_year = len(data_processed[data_processed['YEAR'] == year])
     for i in range(1,13):
-        for j in range(2):
+        for j in range(6):
             for k in range(7):
                 
-                entries = data_processed[data_processed['YEAR'] == year][data_processed['HOUR'] == i][data_processed['WIND_BINARY'] == j][data_processed['WEEK_DAY'] == k]
+                entries = data_processed[data_processed['YEAR'] == year][data_processed['HOUR'] == i][data_processed['WIND_LABELLED'] == j][data_processed['WEEK_DAY'] == k]
 
-                h = pd.Series({'YEAR':year,'HOUR':i,'WIND_BINARY':j, 'WEEK_DAY':k,'RATE':float(len(entries))/float(num_entries_in_year)})
+                h = pd.Series({'YEAR':year,'HOUR':i,'WIND_LABELLED':j, 'WEEK_DAY':k,'RATE':float(len(entries))/float(num_entries_in_year)})
                 rate_df = rate_df.append(h, ignore_index = True)
                 
 rate_df.to_pickle('data/hour_wind_day_rate.pkl')
