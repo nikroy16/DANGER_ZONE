@@ -34,7 +34,7 @@ rate_df = pd.DataFrame(columns = ['YEAR', 'HOUR', 'WIND_BINARY', 'WEEK_DAY', 'RA
 for year in range(2009, 2014):
     num_entries_in_year = len(data_processed[data_processed['YEAR'] == year])
     for i in range(1,13):
-        for j in range(1):
+        for j in range(2):
             for k in range(7):
                 
                 entries = data_processed[data_processed['YEAR'] == year][data_processed['HOUR'] == i][data_processed['WIND_BINARY'] == j][data_processed['WEEK_DAY'] == k]
