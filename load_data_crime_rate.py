@@ -30,9 +30,9 @@ def mtr():
     counter = 0
     for year in range(2009, 2014):
         num_entries_in_year = len(data_processed[data_processed['YEAR'] == year])
-        for i in range(24):
+        for i in range(12):
             for j in range(6):
-                print '\rProgress [%d%%]'%((counter * 100)/(5 * 24 * 6)),
+                print '\rProgress [%d%%]'%((counter * 100)/(5 * 12 * 6)),
                 counter += 1
                 entries = data_processed[data_processed['YEAR'] == year][data_processed['MONTH'] == i][data_processed['TEMP_LABELED'] == j]
             

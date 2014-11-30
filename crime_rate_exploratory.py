@@ -17,7 +17,15 @@ from sklearn.linear_model import SGDClassifier
 import os
 import subprocess
 
-data = pd.read_pickle('data/month_temp_rate.pkl')
+mtr = 'data/month_temp_rate.pkl'
+hwdr = 'data/hour_wind_day_rate.pkl'
+
+filepath = mtr
+
+#Read in data
+data = pd.read_pickle(filepath)
+
+#Binarize rate
 median = np.median(data['RATE'])
 def make_binary(x):
     if x >= median:
@@ -29,25 +37,22 @@ b = np.vectorize(make_binary)
 
 data['RATE'] = b(data['RATE'])
 
-
-
-features = ['MONTH', 'TEMP_LABELED']
-
-specific_data = data[features + ['RATE']]
-
-X = np.array(specific_data)
-
-
+# Build numpy array
+X = np.array(data)
 
 ### only use the code below if algorithm requires normalization before hand ###
 '''
 scaler = preprocessing.StandardScaler().fit(X)
 X = scaler.transform(X)
 '''
+n,d = X.shape
 
-y = X[:,len(features)]
+# Retrieve class label (rate)
+y = X[:,d - 1]
 
-X= np.delete(X, len(features), 1)
+# Delete class label and year feature
+X= np.delete(X, d - 1, 1)
+X= np.delete(X, 0,1)
 
 
 pred = np.array([])
