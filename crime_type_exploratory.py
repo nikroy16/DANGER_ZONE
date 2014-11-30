@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from nn import NeuralNet
 from sklearn import preprocessing
 from datetime import datetime
 from sklearn import cross_validation
@@ -12,7 +13,7 @@ from sklearn import metrics
 
 
 data = pd.read_pickle('data/data_processed.pkl')
-features = ['TEMP_LABELED', 'TEMP_LABELED','HOUR']
+features = ['LOC_LABELLED','HOUR','TEMP_LABELED','WEEK_DAY','MONTH','VISIBILITY']
 specific_data = data[features + ['CRIME_TYPE']]
 
 X = np.array(specific_data)
@@ -25,24 +26,15 @@ scaler = preprocessing.StandardScaler().fit(X)
 X = scaler.transform(X)
 '''
 
-
-
 y = X[:,len(features)]
-
 X= np.delete(X, len(features), 1)
-
-
-
-
-
-
-
+print X.shape
 
 predictions = []
 actual = []
 acc = []
 
-kf = cross_validation.KFold(len(y), n_folds=10)
+kf = cross_validation.KFold(len(y), n_folds=2)
 
     
 for train_index, test_index in kf:
@@ -51,9 +43,10 @@ for train_index, test_index in kf:
         y_train, y_test = y[train_index], y[test_index]
         
         
-        
+        layers = np.array([7])
+        #clf = NeuralNet(layers, 0.5, numEpochs=20)
         clf = MultinomialNB()
-        clf.fit(X_train, y_train)
+        clf.fit(X_train,y_train)
         
         pred = clf.predict(X_test)
         accuracyDT = accuracy_score(y_test, pred)
