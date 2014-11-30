@@ -31,7 +31,6 @@ data['RATE'] = b(data['RATE'])
 
 
 
-
 features = ['MONTH', 'TEMP_LABELED']
 
 specific_data = data[features + ['RATE']]
