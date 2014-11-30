@@ -16,7 +16,7 @@ rate_df = pd.DataFrame(columns = ['YEAR', 'MONTH', 'TEMP_LABELED', 'RATE'])
 
 for year in range(2009, 2014):
     num_entries_in_year = len(data_processed[data_processed['YEAR'] == year])
-    for i in range(1,13):
+    for i in range(0,23):
         for j in range(6):
             entries = data_processed[data_processed['YEAR'] == year][data_processed['MONTH'] == i][data_processed['TEMP_LABELED'] == j]
             
@@ -33,7 +33,7 @@ rate_df = pd.DataFrame(columns = ['YEAR', 'HOUR', 'WIND_LABELLED', 'WEEK_DAY', '
 
 for year in range(2009, 2014):
     num_entries_in_year = len(data_processed[data_processed['YEAR'] == year])
-    for i in range(1,13):
+    for i in range(0,23):
         for j in range(6):
             for k in range(7):
                 
